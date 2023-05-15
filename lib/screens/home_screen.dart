@@ -48,6 +48,14 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void onStopPressed() {
+    timer.cancel();
+    setState(() {
+      totalSeconds = twentyfive;
+      isRunning = false;
+    });
+  }
+
   String format(int seconds) {
     var duration = Duration(seconds: seconds);
     return duration.toString().substring(2, 7);
@@ -76,15 +84,39 @@ class _HomeScreenState extends State<HomeScreen> {
           Flexible(
             flex: 2,
             child: Center(
-              child: IconButton(
-                color: Theme.of(context).cardColor,
-                iconSize: 100,
-                onPressed: isRunning ? onPausePressed : onStartPressed,
-                icon: Icon(
-                  isRunning
-                      ? Icons.pause_circle_outline
-                      : Icons.play_circle_outline,
-                ),
+              child: Column(
+                children: [
+                  IconButton(
+                    color: Theme.of(context).cardColor,
+                    iconSize: 100,
+                    onPressed: isRunning ? onPausePressed : onStartPressed,
+                    icon: Icon(
+                      isRunning
+                          ? Icons.pause_circle_outline
+                          : Icons.play_circle_outline,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: onStopPressed,
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Theme.of(context).cardColor,
+                      ),
+                      child: Text(
+                        'RESET',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color:
+                              Theme.of(context).textTheme.displayLarge!.color,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
           ),
